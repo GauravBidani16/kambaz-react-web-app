@@ -1,24 +1,20 @@
-// src/Kambaz/Account/Signup.tsx
 import React from "react";
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
-import AccountNavigation from "./Navigation";
 
 export default function Signup() {
   const navigate = useNavigate();
 
   const handleSignup = (e: React.FormEvent) => {
     e.preventDefault();
-    // TODO: perform signup logic…
     navigate("/Kambaz/Account/Profile");
-    // or navigate("/Kambaz/Dashboard");
   };
 
   return (
     <Container fluid className="vh-100 g-0">
       <Row className="h-100 g-0">
         <Col xs={12} md={50} className="d-flex align-items-start justify-content-center">
-          <div style={{ width: "100%", maxWidth: 400, padding: "2rem" }}>  
+          <div style={{ width: "100%", maxWidth: 400, padding: "2rem" }}>
             <h1 className="mb-4">Signup</h1>
             <Form onSubmit={handleSignup}>
               <Form.Group controlId="wd-signup-username" className="mb-3">
