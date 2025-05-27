@@ -6,78 +6,92 @@ import { TbBook2 } from "react-icons/tb";
 import { FaRegCalendarAlt } from "react-icons/fa";
 import { BsInbox } from "react-icons/bs";
 import { MdLaptopMac } from "react-icons/md";
-import { CgProfile } from "react-icons/cg";
+import { FaRegCircleUser } from "react-icons/fa6";
 
 export default function KambazNavigation() {
   const { pathname } = useLocation();
 
   const links = [
-    { label: "Dashboard", path: "/Kambaz/Dashboard", icon: TfiDashboard },
-    { label: "Courses", path: "/Kambaz/Dashboard", icon: TbBook2 },
-    { label: "Calendar", path: "/Kambaz/Calendar", icon: FaRegCalendarAlt },
-    { label: "Inbox", path: "/Kambaz/Inbox", icon: BsInbox },
-    { label: "Labs", path: "/Labs", icon: MdLaptopMac },
+    {
+      to: "/Kambaz/Account",
+      label: "Account",
+      Icon: FaRegCircleUser,
+      match: (p: string) => p.startsWith("/Kambaz/Account"),
+    },
+    {
+      to: "/Kambaz/Dashboard",
+      label: "Dashboard",
+      Icon: TfiDashboard,
+      match: (p: string) => p === "/Kambaz/Dashboard",
+    },
+    {
+      to: "/Kambaz/Dashboard",
+      label: "Courses",
+      Icon: TbBook2,
+      match: (p: string) => p.startsWith("/Kambaz/Courses"),
+    },
+    {
+      to: "/Kambaz/Calendar",
+      label: "Calendar",
+      Icon: FaRegCalendarAlt,
+      match: (p: string) => p === "/Kambaz/Calendar",
+    },
+    {
+      to: "/Kambaz/Inbox",
+      label: "Inbox",
+      Icon: BsInbox,
+      match: (p: string) => p === "/Kambaz/Inbox",
+    },
+    {
+      to: "/Labs",
+      label: "Labs",
+      Icon: MdLaptopMac,
+      match: (p: string) => p === "/Labs",
+    },
   ];
 
   return (
     <ListGroup
       id="wd-kambaz-navigation"
-      style={{ width: 120 }}
-      className="
-        position-fixed top-0 bottom-0
-        d-none d-md-block
-        bg-black z-2 rounded-0
-      "
+      style={{ width: 110 }}
+      className="position-fixed top-0 bottom-0 bg-black rounded-0 d-none d-md-block"
     >
       <ListGroup.Item
-        as="a"
-        id="wd-neu-link"
+        action
         href="https://www.northeastern.edu/"
         target="_blank"
         rel="noopener"
-        action
         className="border-0 bg-black text-center py-3"
       >
-        <img src="/images/NEU.png" alt="Northeastern" width={75} />
+        <img src="/images/NEU.png" width={75} alt="NEU" />
       </ListGroup.Item>
 
-      <ListGroup.Item
-        as={Link}
-        to="/Kambaz/Account"
-        action
-        className={[
-          "border-0 text-center py-3",
-          pathname.startsWith("/Kambaz/Account")
-            ? "bg-white text-danger"
-            : "bg-black text-white",
-        ].join(" ")}
-      >
-        <CgProfile
-          className={[
-            "fs-1 mb-1",
-            pathname.startsWith("/Kambaz/Account")
-              ? "text-danger"
-              : "text-white",
-          ].join(" ")}
-        />
-        <div>Account</div>
-      </ListGroup.Item>
+      {links.map(({ to, label, Icon, match }) => {
+        const active = match(pathname);
+        const isAccount = label === "Account";
 
-      {links.map(({ label, path, icon: Icon }) => {
-        const isActive = pathname.startsWith(path);
+        const themeClass = isAccount
+          ? "bg-black text-white"
+          : active
+          ? "bg-white text-danger"
+          : "bg-black text-white";
+
         return (
           <ListGroup.Item
-            key={path}
             as={Link}
-            to={path}
-            action
+            to={to}
+            key={label}
             className={[
-              "border-0 text-center py-3",
-              isActive ? "bg-white text-danger" : "bg-black text-white",
+              "border-0 d-flex flex-column align-items-center py-3",
+              themeClass,
             ].join(" ")}
           >
-            <Icon className={`fs-1 mb-1 ${isActive ? "text-danger" : "text-white"}`} />
-            <div>{label}</div>
+            <Icon
+              className={`fs-1 mb-1 ${
+                isAccount ? "text-white" : "text-danger"
+              }`}
+            />
+            <small>{label}</small>
           </ListGroup.Item>
         );
       })}

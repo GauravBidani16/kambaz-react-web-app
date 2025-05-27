@@ -4,7 +4,6 @@ import * as db from "../../Database";
 import ModulesControls from "./ModulesControls";
 import ModuleControlButtons from "./ModuleControlButtons";
 import LessonControlButtons from "./LessonControlButtons";
-import CourseStatus from "../Home/Status";
 import { ListGroup } from "react-bootstrap";
 import { BsGripVertical } from "react-icons/bs";
 
@@ -51,10 +50,6 @@ export default function Modules() {
             </ListGroup.Item>
           ))}
         </ListGroup>
-      </div>
-
-      <div className="d-none d-lg-block ps-4" style={{ width: 350 }}>
-        <CourseStatus />
       </div>
     </div>
   );
