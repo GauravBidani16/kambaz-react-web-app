@@ -73,8 +73,8 @@ export default function KambazNavigation() {
         const themeClass = isAccount
           ? "bg-black text-white"
           : active
-          ? "bg-white text-danger"
-          : "bg-black text-white";
+            ? "bg-white text-danger"
+            : "bg-black text-white";
 
         return (
           <ListGroup.Item
@@ -87,9 +87,8 @@ export default function KambazNavigation() {
             ].join(" ")}
           >
             <Icon
-              className={`fs-1 mb-1 ${
-                isAccount ? "text-white" : "text-danger"
-              }`}
+              className={`fs-1 mb-1 ${isAccount ? "text-white" : "text-danger"
+                }`}
             />
             <small>{label}</small>
           </ListGroup.Item>
