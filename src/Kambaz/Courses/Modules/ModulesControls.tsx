@@ -5,15 +5,17 @@ import GreenCheckmark from "./GreenCheckmark";
 import ModuleEditor from "./ModuleEditor";
 
 interface ModulesControlsProps {
+  isFaculty: boolean;
   moduleName: string;
   setModuleName: (title: string) => void;
-  addModule: () => void;
+  handleAddModule: () => void;
 }
 
 export default function ModulesControls({
+  isFaculty,
   moduleName,
   setModuleName,
-  addModule,
+  handleAddModule,
 }: ModulesControlsProps) {
   const [show, setShow] = useState(false);
 
@@ -61,24 +63,29 @@ export default function ModulesControls({
         </Dropdown.Menu>
       </Dropdown>
 
-      <Button
-        variant="danger"
-        size="lg"
-        onClick={handleShow}
-        id="wd-add-module-click"
-      >
-        <FaPlus className="position-relative me-2" style={{ bottom: "1px" }} />
-        Module
-      </Button>
+      {isFaculty && (
+        <>
+          <Button
+            variant="danger"
+            size="lg"
+            onClick={handleShow}
+            id="wd-add-module-click"
+            className="me-2"
+          >
+            <FaPlus className="position-relative me-2" style={{ bottom: "1px" }} />
+            Module
+          </Button>
 
-      <ModuleEditor
-        show={show}
-        handleClose={handleClose}
-        dialogTitle="Add Module"
-        moduleName={moduleName}
-        setModuleName={setModuleName}
-        addModule={addModule}
-      />
+          <ModuleEditor
+            show={show}
+            handleClose={handleClose}
+            dialogTitle="Add Module"
+            moduleName={moduleName}
+            setModuleName={setModuleName}
+            addModule={handleAddModule}
+          />
+        </>
+      )}
     </div>
   );
 }

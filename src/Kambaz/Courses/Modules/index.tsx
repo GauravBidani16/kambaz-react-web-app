@@ -16,10 +16,15 @@ import LessonControlButtons from "./LessonControlButtons";
 
 import { ListGroup, FormControl } from "react-bootstrap";
 import { BsGripVertical } from "react-icons/bs";
+import { FaEllipsisV } from "react-icons/fa";
+import GreenCheckmark from "./GreenCheckmark";
 
 export default function Modules() {
   const { cid } = useParams<{ cid: string }>();
   const dispatch = useDispatch();
+
+  const currentUser = useSelector((state: RootState) => state.accountReducer.currentUser);
+  const isFaculty = currentUser?.role === "FACULTY";
 
   const [moduleName, setModuleName] = useState("");
 
@@ -28,6 +33,7 @@ export default function Modules() {
   );
 
   const handleAddModule = () => {
+    if (!moduleName.trim()) return;
     dispatch(addModule({ name: moduleName, course: cid! }));
     setModuleName("");
   };
@@ -49,9 +55,10 @@ export default function Modules() {
       <h2 className="mb-3">Modules for Course: {cid}</h2>
 
       <ModulesControls
+        isFaculty={isFaculty}
         moduleName={moduleName}
         setModuleName={setModuleName}
-        addModule={handleAddModule}
+        handleAddModule={handleAddModule}
       />
       <hr />
 
@@ -81,20 +88,27 @@ export default function Modules() {
                 />
               )}
 
-              <ModuleControlButtons
-                moduleId={mod._id}
-                editModule={handleEditModule}
-                deleteModule={handleDeleteModule}
-                publishModule={() =>
-                  console.log("Publish Module", mod._id)
-                }
-                addLesson={() =>
-                  console.log("Add Lesson under", mod._id)
-                }
-                onMore={() =>
-                  console.log("More options for", mod._id)
-                }
-              />
+              {isFaculty ? (
+                <ModuleControlButtons
+                  moduleId={mod._id}
+                  editModule={handleEditModule}
+                  deleteModule={handleDeleteModule}
+                  publishModule={() =>
+                    console.log("Publish Module", mod._id)
+                  }
+                  addLesson={() =>
+                    console.log("Add Lesson under", mod._id)
+                  }
+                  onMore={() =>
+                    console.log("More options for", mod._id)
+                  }
+                />
+              ) : (
+                <div className="d-flex align-items-center">
+                  <GreenCheckmark className="me-2" />
+                  <FaEllipsisV className="fs-4 text-secondary" />
+                </div>
+              )}
             </div>
 
             {mod.lessons && mod.lessons.length > 0 && (
@@ -106,15 +120,22 @@ export default function Modules() {
                   >
                     <BsGripVertical className="me-2 fs-3 text-secondary" />
                     <span className="flex-grow-1">{lesson.name}</span>
-                    <LessonControlButtons
-                      lessonId={lesson._id}
-                      editLesson={(lid) =>
-                        console.log("Edit lesson", lid)
-                      }
-                      deleteLesson={(lid) =>
-                        console.log("Delete lesson", lid)
-                      }
-                    />
+                    {isFaculty ? (
+                      <LessonControlButtons
+                        lessonId={lesson._id}
+                        editLesson={(lid) =>
+                          console.log("Edit lesson", lid)
+                        }
+                        deleteLesson={(lid) =>
+                          console.log("Delete lesson", lid)
+                        }
+                      />
+                    ) : (
+                      <div className="d-flex align-items-center">
+                        <GreenCheckmark className="me-2" />
+                        <FaEllipsisV className="fs-4 text-secondary" />
+                      </div>
+                    )}
                   </ListGroup.Item>
                 ))}
               </ListGroup>
