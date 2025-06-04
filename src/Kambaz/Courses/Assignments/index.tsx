@@ -13,11 +13,12 @@ import {
   Form,
 } from "react-bootstrap";
 import { FaSearch, FaPlus } from "react-icons/fa";
-import { BsGripVertical, BsTrash, BsGear } from "react-icons/bs";
+import { BsGripVertical, BsTrash } from "react-icons/bs";
 import { IoEllipsisVertical } from "react-icons/io5";
 import { FaRegFileAlt } from "react-icons/fa";
 import GreenCheckmark from "../Modules/GreenCheckmark";
 import "../../styles.css";
+import { GrEdit } from "react-icons/gr";
 
 interface AssignmentsProps {
   isFaculty: boolean;
@@ -194,7 +195,7 @@ export default function Assignments({ isFaculty }: AssignmentsProps) {
             {isFaculty && (
               <div className="d-flex align-items-center">
                 {!a.editing && (
-                  <BsGear
+                  <GrEdit
                     onClick={() => handleEditAssignment(a._id)}
                     className="text-dark me-3 fs-5"
                   />
@@ -235,7 +236,7 @@ export default function Assignments({ isFaculty }: AssignmentsProps) {
                 <FormControl
                   as="textarea"
                   rows={3}
-                  placeholder="<p>Describe assignment…</p>"
+                  placeholder="Describe assignment"
                   value={newDescription}
                   onChange={(e) => setNewDescription(e.target.value)}
                 />
