@@ -1,44 +1,62 @@
 
-import Assignments from "./Assignments";
-import AssignmentEditor from "./Assignments/Editor";
+import { useParams, useLocation, Routes, Route, Navigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import type { RootState } from "../store";
+import CourseNavigation from "./Navigation";
 import Home from "./Home";
 import Modules from "./Modules";
-import CourseNavigation from "./Navigation";
-import { Navigate, Route, Routes, useParams, useLocation } from "react-router-dom";
-import { FaAlignJustify } from "react-icons/fa";
-import { courses } from "../Database";
+import Assignments from "./Assignments";
+import AssignmentEditor from "./Assignments/Editor";
 import PeopleTable from "./People/Table";
+import { FaAlignJustify } from "react-icons/fa";
 
 export default function Courses() {
   const { cid } = useParams<{ cid: string }>();
-  const course = courses.find((c) => c._id === cid);
-  const { pathname } = useLocation();
+  const location = useLocation();
+
+  const course = useSelector((state: RootState) =>
+    state.coursesReducer.all.find((c) => c._id === cid)
+  );
 
   if (!course) {
     return <h2 className="p-3">Course not found</h2>;
   }
 
+  const currentUser = useSelector((state: RootState) => state.accountReducer.currentUser);
+  const isFaculty = currentUser?.role === "FACULTY";
+
   return (
     <div id="wd-courses">
       <h2 className="text-danger">
         <FaAlignJustify className="me-4 fs-4 mb-1" />
-        {course.name} &gt; {pathname.split("/")[4]}
+        {course.name} &gt; {location.pathname.split("/")[4] || "Home"}
       </h2>
       <hr />
 
       <div className="d-flex">
         <div className="d-none d-md-block bg-white border-end pe-4">
-          <CourseNavigation />
+          <CourseNavigation isFaculty={isFaculty} />
         </div>
-
         <div className="flex-fill ps-4">
           <Routes>
             <Route index element={<Navigate to="Home" replace />} />
 
-            <Route path="Home" element={<Home />} />
-            <Route path="Modules" element={<Modules />} />
-            <Route path="Assignments" element={<Assignments />} />
-            <Route path="Assignments/:aid" element={<AssignmentEditor />} />
+            <Route
+              path="Home"
+              element={<Home />}
+            />
+            <Route
+              path="Modules"
+              element={<Modules />}
+            />
+            <Route
+              path="Assignments"
+              element={<Assignments isFaculty={isFaculty} />}
+            />
+            <Route
+              path="Assignments/:aid"
+              element={<AssignmentEditor />}
+            />
             <Route path="People" element={<PeopleTable />} />
             <Route path="Piazza" element={<h2 className="p-3">Piazza</h2>} />
             <Route path="Zoom" element={<h2 className="p-3">Zoom Meetings</h2>} />

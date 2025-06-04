@@ -2,9 +2,12 @@
 import { ListGroup } from "react-bootstrap";
 import { NavLink, useParams } from "react-router-dom";
 
-export default function CourseNavigation() {
-  const { cid } = useParams<{ cid: string }>();
+interface CourseNavigationProps {
+  isFaculty: boolean;
+}
 
+export default function CourseNavigation({ }: CourseNavigationProps) {
+  const { cid } = useParams<{ cid: string }>();
   const links = [
     "Home",
     "Modules",
@@ -17,21 +20,13 @@ export default function CourseNavigation() {
   ];
 
   return (
-    <ListGroup
-      id="wd-courses-navigation"
-      className="wd fs-5 rounded-0 bg-white"
-    >
+    <ListGroup id="wd-courses-navigation" className="wd fs-5 rounded-0 bg-white">
       {links.map((label) => {
         const to = `/Kambaz/Courses/${cid}/${label}`;
         const end = label === "Home";
 
         return (
-          <NavLink
-            key={label}
-            to={to}
-            end={end}
-            style={{ textDecoration: "none" }}
-          >
+          <NavLink key={label} to={to} end={end} style={{ textDecoration: "none" }}>
             {({ isActive }: { isActive: boolean }) => (
               <ListGroup.Item
                 id={`wd-course-${label.toLowerCase()}-link`}
