@@ -6,7 +6,7 @@ interface CourseNavigationProps {
   isFaculty: boolean;
 }
 
-export default function CourseNavigation({ isFaculty }: CourseNavigationProps) {
+export default function CourseNavigation({ }: CourseNavigationProps) {
   const { cid } = useParams<{ cid: string }>();
   const links = [
     "Home",
