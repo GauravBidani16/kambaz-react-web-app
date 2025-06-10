@@ -10,21 +10,21 @@ export default function Labs() {
   return (
     <Provider store={store}>
 
-      <div>
-        <h1>Labs</h1>
+    <div>
+      <h1>Labs</h1>
         <p id="wd-fullname">Gaurav Bidani, NUID- 002068884</p>
 
-        <TOC />
-        <Routes>
-          <Route path="/" element={<Navigate to="Lab1" />} />
-          <Route path="Lab1" element={<Lab1 />} />
-          <Route path="Lab2/*" element={<Lab2 />} />
-          <Route path="Lab3/*" element={<Lab3 />} />
-          <Route path="Lab4/*" element={<Lab4 />} />
-
-        </Routes>
-      </div>
-    </Provider>
+      <TOC />
+      <Routes>
+        <Route path="/" element={<Navigate to="Lab1" />} />
+        <Route path="Lab1" element={<Lab1 />} />
+        <Route path="Lab2/*" element={<Lab2 />} />
+        <Route path="Lab3/*" element={<Lab3 />} />
+        <Route path="Lab4/*" element={<Lab4 />} />
+      
+      </Routes>
+    </div>
+ </Provider>
   );
 }
 
