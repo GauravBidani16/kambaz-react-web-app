@@ -1,9 +1,9 @@
 import React, { useState } from "react";
+import * as client from "./client";
 import { Container, Row, Col, Form, Button, FormControl } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setCurrentUser } from "./reducer";
-import * as db from "../Database";
 
 export default function Signin() {
   const [credentials, setCredentials] = useState<{ username: string; password: string }>({
@@ -13,22 +13,33 @@ export default function Signin() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const handleSignIn = (e: React.FormEvent) => {
+  const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
-    const user = (db.users as any[]).find(
-      (u) => u.username === credentials.username && u.password === credentials.password);
-    if (!user) {
-      alert("Invalid credentials");
-      return;
+    try {
+      const user = await client.signin(credentials);
+      if (!user) {
+        alert("Invalid credentials");
+        return;
+      }
+      dispatch(setCurrentUser(user));
+      navigate("/Kambaz/Dashboard", { replace: true });
+    } catch (err: any) {
+      console.error("Sign-in error:", err, err.response);
+      const msg =
+        err.response?.data?.message ||
+        err.message ||
+        "Unknown error";
+      alert(`Sign-in failed: ${msg}`);
     }
-    dispatch(setCurrentUser(user));
-    navigate("/Kambaz/Dashboard", { replace: true });
   };
-
   return (
     <Container fluid className="vh-100 g-0">
       <Row className="h-100 g-0">
-        <Col xs={12} md={6} className="d-flex align-items-start justify-content-center">
+        <Col
+          xs={12}
+          md={6}
+          className="d-flex align-items-start justify-content-center"
+        >
           <div style={{ width: "100%", maxWidth: 400, padding: "2rem" }}>
             <h1 className="mb-4">Sign in</h1>
             <Form onSubmit={handleSignIn}>
@@ -37,7 +48,9 @@ export default function Signin() {
                 <FormControl
                   placeholder="username"
                   value={credentials.username}
-                  onChange={(e) => setCredentials({ ...credentials, username: e.target.value })}
+                  onChange={(e) =>
+                    setCredentials({ ...credentials, username: e.target.value })
+                  }
                 />
               </Form.Group>
 
@@ -47,7 +60,9 @@ export default function Signin() {
                   type="password"
                   placeholder="password"
                   value={credentials.password}
-                  onChange={(e) => setCredentials({ ...credentials, password: e.target.value })}
+                  onChange={(e) =>
+                    setCredentials({ ...credentials, password: e.target.value })
+                  }
                 />
               </Form.Group>
 
