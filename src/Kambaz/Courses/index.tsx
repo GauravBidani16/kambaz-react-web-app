@@ -1,4 +1,3 @@
-
 import { useParams, useLocation, Routes, Route, Navigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import type { RootState } from "../store";
@@ -7,7 +6,7 @@ import Home from "./Home";
 import Modules from "./Modules";
 import Assignments from "./Assignments";
 import AssignmentEditor from "./Assignments/Editor";
-import PeopleTable from "./People/Table";
+import People from "./People";
 import { FaAlignJustify } from "react-icons/fa";
 
 export default function Courses() {
@@ -17,12 +16,11 @@ export default function Courses() {
   const course = useSelector((state: RootState) =>
     state.coursesReducer.all.find((c) => c._id === cid)
   );
+  if (!course) return <h2 className="p-3">Course not found</h2>;
 
-  if (!course) {
-    return <h2 className="p-3">Course not found</h2>;
-  }
-
-  const currentUser = useSelector((state: RootState) => state.accountReducer.currentUser);
+  const currentUser = useSelector((state: RootState) =>
+    state.accountReducer.currentUser
+  );
   const isFaculty = currentUser?.role === "FACULTY";
 
   return (
@@ -41,14 +39,9 @@ export default function Courses() {
           <Routes>
             <Route index element={<Navigate to="Home" replace />} />
 
-            <Route
-              path="Home"
-              element={<Home />}
-            />
-            <Route
-              path="Modules"
-              element={<Modules />}
-            />
+            <Route path="Home" element={<Home />} />
+            <Route path="Modules" element={<Modules />} />
+
             <Route
               path="Assignments"
               element={<Assignments isFaculty={isFaculty} />}
@@ -57,7 +50,8 @@ export default function Courses() {
               path="Assignments/:aid"
               element={<AssignmentEditor />}
             />
-            <Route path="People" element={<PeopleTable />} />
+
+            <Route path="People" element={<People />} />
             <Route path="Piazza" element={<h2 className="p-3">Piazza</h2>} />
             <Route path="Zoom" element={<h2 className="p-3">Zoom Meetings</h2>} />
             <Route path="Quizzes" element={<h2 className="p-3">Quizzes</h2>} />
