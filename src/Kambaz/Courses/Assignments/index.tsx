@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -12,6 +13,7 @@ import {
   updateAssignmentById,
 } from "./reducer";
 
+import AssignmentEditor from "./Editor";
 
 import {
   InputGroup,
@@ -21,17 +23,16 @@ import {
   Modal,
 } from "react-bootstrap";
 import { FaSearch, FaPlus, FaRegFileAlt } from "react-icons/fa";
-import { BsGripVertical, BsTrash } from "react-icons/bs";
+import { BsGripVertical, BsTrash, BsGear } from "react-icons/bs";
 import { IoEllipsisVertical } from "react-icons/io5";
 import GreenCheckmark from "../Modules/GreenCheckmark";
-import { GrEdit } from "react-icons/gr";
 
 interface AssignmentsProps {
   isFaculty: boolean;
 }
 
 export default function Assignments({ isFaculty }: AssignmentsProps) {
-  const { cid } = useParams<{ cid: string }>();
+  const { cid, aid } = useParams<{ cid: string; aid?: string }>();
   const dispatch = useDispatch<AppDispatch>();
   const assignments = useSelector(
     (s: RootState) => s.assignmentsReducer.assignments
@@ -49,6 +50,9 @@ export default function Assignments({ isFaculty }: AssignmentsProps) {
   useEffect(() => {
     if (cid) dispatch(fetchAssignments(cid));
   }, [cid, dispatch]);
+  if (aid && aid !== "New") {
+    return <AssignmentEditor />;
+  }
 
   if (status === "loading") {
     return <div>Loading assignments…</div>;
@@ -162,7 +166,7 @@ export default function Assignments({ isFaculty }: AssignmentsProps) {
                     <BsGripVertical className="me-2" />
                     <FaRegFileAlt className="me-2 text-success" />
                     <Link
-                      to={`Assignments/${a._id}`}
+                      to={`${a._id}`}
                       className="text-decoration-none text-dark"
                     >
                       <strong style={{ fontSize: "1.1rem" }}>
@@ -189,9 +193,9 @@ export default function Assignments({ isFaculty }: AssignmentsProps) {
             <div className="d-flex align-items-center">
               {isFaculty && !a.editing && (
                 <>
-                  <GrEdit
+                  <BsGear
                     onClick={() => handleEditClick(a._id)}
-                    className="text-dark me-3 fs-5"
+                    className="text-primary me-3 fs-5"
                   />
                   <BsTrash
                     onClick={() => handleDelete(a._id)}
@@ -220,7 +224,7 @@ export default function Assignments({ isFaculty }: AssignmentsProps) {
           <FormControl
             as="textarea"
             rows={3}
-            placeholder="Description"
+            placeholder="Description…"
             value={newDesc}
             onChange={(e) => setNewDesc(e.target.value)}
             className="mb-2"

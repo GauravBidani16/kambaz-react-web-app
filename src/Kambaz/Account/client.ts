@@ -1,11 +1,12 @@
 import axios from "axios";
-
+const REMOTE_SERVER = import.meta.env.VITE_REMOTE_SERVER || "";  
 const axiosWithCredentials = axios.create({
   withCredentials: true,
+    baseURL: REMOTE_SERVER,
 });
+const COURSES_API   = `${REMOTE_SERVER}/api/courses`;
 
-export const USERS_API = "/api/users";
-export const COURSES_API = "/api/courses";
+export const USERS_API   = `${REMOTE_SERVER}/api/users`;
 
 export interface Course {
   _id: string;
@@ -26,7 +27,7 @@ export const signin = (creds: { username: string; password: string }) =>
 export const signup = (user: { username: string; password: string }) =>
   axiosWithCredentials.post(`${USERS_API}/signup`, user).then(res => res.data);
 
-export async function profile(): Promise<any> {
+export async function profile(): Promise<any > {
   try {
     const { data } = await axiosWithCredentials.get(`${USERS_API}/profile`);
     return data;

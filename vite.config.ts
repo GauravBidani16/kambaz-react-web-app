@@ -6,7 +6,7 @@ export default defineConfig({
   server: {
     proxy: {
       "/api": {
-        target: "https://kambaz-node-server-app-beye.onrender.com",
+        target: "http://localhost:4000",
         changeOrigin: true,
         secure: false,
       },
