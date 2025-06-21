@@ -10,23 +10,23 @@ export default function AccountNavigation() {
 
   const links = currentUser
     ? [
-      { to: "/Kambaz/Account/Profile", label: "Profile", id: "wd-account-profile-link" },
-      ...(currentUser.role === "ADMIN"
-        ? [{ to: "/Kambaz/Account/Users", label: "Users", id: "wd-account-users-link" }]
-        : []),
-    ]
+        { to: "/Kambaz/Account/Profile", label: "Profile", id: "wd-account-profile-link" },
+        ...(currentUser.role === "ADMIN"
+          ? [{ to: "/Kambaz/Account/Users", label: "Users", id: "wd-account-users-link" }]
+          : []),
+      ]
     : [
-      {
-        to: "/Kambaz/Account/Signin",
-        label: "Signin",
-        id: "wd-account-signin-link",
-      },
-      {
-        to: "/Kambaz/Account/Signup",
-        label: "Signup",
-        id: "wd-account-signup-link",
-      },
-    ];
+        {
+          to:    "/Kambaz/Account/Signin",
+          label: "Signin",
+          id:    "wd-account-signin-link",
+        },
+        {
+          to:    "/Kambaz/Account/Signup",
+          label: "Signup",
+          id:    "wd-account-signup-link",
+        },
+      ];
 
   return (
     <ListGroup id="wd-account-nav" className="wd fs-5 rounded-0 bg-white">

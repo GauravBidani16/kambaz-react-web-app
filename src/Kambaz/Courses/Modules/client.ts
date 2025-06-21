@@ -6,7 +6,7 @@ export const findModulesForCourse = async (courseId: string) => {
   const { data } = await axiosWithCred.get(
     `/api/courses/${courseId}/modules`
   );
-  return data;
+  return data;   
 };
 
 export const createModuleForCourse = async (courseId: string, mod: any) => {

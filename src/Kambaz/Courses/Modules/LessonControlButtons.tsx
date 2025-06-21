@@ -1,7 +1,6 @@
 
 import { Button } from "react-bootstrap";
-import { FaTrash } from "react-icons/fa";
-import { GrEdit } from "react-icons/gr";
+import { FaPencilAlt, FaTrash } from "react-icons/fa";
 
 interface LessonControlButtonsProps {
   lessonId: string;
@@ -18,14 +17,14 @@ export default function LessonControlButtons({
     <div className="d-flex align-items-center">
       <Button
         variant="link"
-        className="p-0 text-dark me-3"
+        className="p-0 text-primary me-3"
         onClick={(e) => {
           e.preventDefault();
           editLesson(lessonId);
         }}
         id="wd-edit-lesson-click"
       >
-        <GrEdit size={18} />
+        <FaPencilAlt size={18} />
       </Button>
 
       <Button

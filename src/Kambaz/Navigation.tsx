@@ -1,17 +1,16 @@
 
 import { ListGroup } from "react-bootstrap";
 import { Link, useLocation } from "react-router-dom";
-import { TfiDashboard } from "react-icons/tfi";
-import { TbBook2 } from "react-icons/tb";
-import { FaRegCalendarAlt } from "react-icons/fa";
-import { BsInbox } from "react-icons/bs";
-import { MdLaptopMac } from "react-icons/md";
 import { FaRegCircleUser } from "react-icons/fa6";
+import { AiOutlineDashboard } from "react-icons/ai";
+import { LiaBookSolid } from "react-icons/lia";
+import { IoCalendarOutline } from "react-icons/io5";
+import { FaInbox, FaFlask } from "react-icons/fa6";
 
 export default function KambazNavigation() {
   const { pathname } = useLocation();
 
-  const links = [
+  const navItems = [
     {
       to: "/Kambaz/Account",
       label: "Account",
@@ -21,31 +20,31 @@ export default function KambazNavigation() {
     {
       to: "/Kambaz/Dashboard",
       label: "Dashboard",
-      Icon: TfiDashboard,
+      Icon: AiOutlineDashboard,
       match: (p: string) => p === "/Kambaz/Dashboard",
     },
     {
       to: "/Kambaz/Dashboard",
       label: "Courses",
-      Icon: TbBook2,
+      Icon: LiaBookSolid,
       match: (p: string) => p.startsWith("/Kambaz/Courses"),
     },
     {
       to: "/Kambaz/Calendar",
       label: "Calendar",
-      Icon: FaRegCalendarAlt,
+      Icon: IoCalendarOutline,
       match: (p: string) => p === "/Kambaz/Calendar",
     },
     {
       to: "/Kambaz/Inbox",
       label: "Inbox",
-      Icon: BsInbox,
+      Icon: FaInbox,
       match: (p: string) => p === "/Kambaz/Inbox",
     },
     {
       to: "/Labs",
       label: "Labs",
-      Icon: MdLaptopMac,
+      Icon: FaFlask,
       match: (p: string) => p === "/Labs",
     },
   ];
@@ -66,15 +65,15 @@ export default function KambazNavigation() {
         <img src="/images/NEU.png" width={75} alt="NEU" />
       </ListGroup.Item>
 
-      {links.map(({ to, label, Icon, match }) => {
+      {navItems.map(({ to, label, Icon, match }) => {
         const active = match(pathname);
         const isAccount = label === "Account";
 
         const themeClass = isAccount
           ? "bg-black text-white"
           : active
-          ? "bg-white text-danger"
-          : "bg-black text-white";
+            ? "bg-white text-danger"
+            : "bg-black text-white";
 
         return (
           <ListGroup.Item
@@ -88,7 +87,7 @@ export default function KambazNavigation() {
           >
             <Icon
               className={`fs-1 mb-1 ${isAccount ? "text-white" : "text-danger"
-              }`}
+                }`}
             />
             <small>{label}</small>
           </ListGroup.Item>

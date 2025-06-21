@@ -30,7 +30,7 @@ export default function People() {
     setUsers((prev) =>
       prev.map((u) => (u._id === updated._id ? updated : u))
     );
-    return updated;
+    return updated; 
   };
 
   return (

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { FaUserCircle, FaPencilAlt, FaCheck } from "react-icons/fa";
-import { IoCloseSharp } from "react-icons/io5";
-import { FormControl } from "react-bootstrap";
+import { IoCloseSharp }                      from "react-icons/io5";
+import { FormControl }                        from "react-bootstrap";
 
 interface Props {
   uid: string;
@@ -16,11 +16,11 @@ export default function PeopleDetails({
   onDelete,
   onUpdate,
 }: Props) {
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser]       = useState<any>(null);
   const [editing, setEditing] = useState(false);
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [role, setRole] = useState("");
+  const [name, setName]       = useState("");
+  const [email, setEmail]     = useState("");
+  const [role, setRole]       = useState("");
   const [section, setSection] = useState("");
 
   useEffect(() => {
@@ -40,7 +40,7 @@ export default function PeopleDetails({
   const handleSave = async () => {
     const [firstName, lastName = ""] = name.split(" ");
     const updated = { ...user, firstName, lastName, email, role, section };
-    const saved = await onUpdate(updated);
+    const saved   = await onUpdate(updated);
     setUser(saved || updated);
     setEditing(false);
     onClose();

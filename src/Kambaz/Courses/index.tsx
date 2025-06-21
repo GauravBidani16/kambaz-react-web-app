@@ -2,11 +2,11 @@ import { useParams, useLocation, Routes, Route, Navigate } from "react-router-do
 import { useSelector } from "react-redux";
 import type { RootState } from "../store";
 import CourseNavigation from "./Navigation";
-import Home from "./Home";
-import Modules from "./Modules";
-import Assignments from "./Assignments";
+import Home             from "./Home";
+import Modules          from "./Modules";
+import Assignments      from "./Assignments";
 import AssignmentEditor from "./Assignments/Editor";
-import People from "./People";
+import People       from "./People"; 
 import { FaAlignJustify } from "react-icons/fa";
 
 export default function Courses() {
@@ -51,11 +51,11 @@ export default function Courses() {
               element={<AssignmentEditor />}
             />
 
-            <Route path="People" element={<People />} />
-            <Route path="Piazza" element={<h2 className="p-3">Piazza</h2>} />
+             <Route path="People"      element={<People />} />
+             <Route path="Piazza" element={<h2 className="p-3">Piazza</h2>} />
             <Route path="Zoom" element={<h2 className="p-3">Zoom Meetings</h2>} />
             <Route path="Quizzes" element={<h2 className="p-3">Quizzes</h2>} />
-            <Route path="Grades" element={<h2 className="p-3">Grades</h2>} />
+            <Route path="Grades"  element={<h2 className="p-3">Grades</h2>} />
           </Routes>
         </div>
       </div>

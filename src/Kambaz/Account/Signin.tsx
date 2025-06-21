@@ -13,25 +13,25 @@ export default function Signin() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const handleSignIn = async (e: React.FormEvent) => {
-    e.preventDefault();
-    try {
-      const user = await client.signin(credentials);
-      if (!user) {
-        alert("Invalid credentials");
-        return;
-      }
-      dispatch(setCurrentUser(user));
-      navigate("/Kambaz/Dashboard", { replace: true });
-    } catch (err: any) {
-      console.error("Sign-in error:", err, err.response);
-      const msg =
-        err.response?.data?.message ||
-        err.message ||
-        "Unknown error";
-      alert(`Sign-in failed: ${msg}`);
+const handleSignIn = async (e: React.FormEvent) => {
+  e.preventDefault();
+  try {
+    const user = await client.signin(credentials);
+    if (!user) {
+      alert("Invalid credentials");
+      return;
     }
-  };
+    dispatch(setCurrentUser(user));
+    navigate("/Kambaz/Dashboard", { replace: true });
+  } catch (err: any) {
+    console.error("Sign-in error:", err, err.response);
+    const msg =
+      err.response?.data?.message ||
+      err.message ||
+      "Unknown error";
+    alert(`Sign-in failed: ${msg}`);
+  }
+};
   return (
     <Container fluid className="vh-100 g-0">
       <Row className="h-100 g-0">

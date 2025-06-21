@@ -37,7 +37,6 @@ export default function Dashboard() {
             </div>
           </Link>
         </div>
-
         <div className="wd-dashboard-course">
           <Link to="/Kambaz/Courses/CS1004/Home" className="wd-dashboard-course-link">
             <img src="/images/typescript.jpeg" width={200} alt="TypeScript logo" />
@@ -48,7 +47,6 @@ export default function Dashboard() {
             </div>
           </Link>
         </div>
-
         <div className="wd-dashboard-course">
           <Link to="/Kambaz/Courses/CS1005/Home" className="wd-dashboard-course-link">
             <img src="/images/htmlcss.jpeg" width={200} alt="HTML & CSS icon" />
@@ -70,7 +68,6 @@ export default function Dashboard() {
             </div>
           </Link>
         </div>
-
         <div className="wd-dashboard-course">
           <Link to="/Kambaz/Courses/CS1007/Home" className="wd-dashboard-course-link">
             <img src="/images/java.jpeg" width={200} alt="Java logo" />

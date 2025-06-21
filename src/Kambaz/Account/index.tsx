@@ -3,11 +3,11 @@ import { useSelector } from "react-redux";
 import type { RootState } from "../store";
 
 import AccountNavigation from "./Navigation";
-import Signin from "./Signin";
-import Signup from "./Signup";
-import Profile from "./Profile";
-import Users from "./Users";
-import ProtectedRoute from "./ProtectedRoute";
+import Signin    from "./Signin";
+import Signup    from "./Signup";
+import Profile   from "./Profile";
+import Users     from "./Users";
+import ProtectedRoute from "./ProtectedRoute"; 
 
 export default function Account() {
   const currentUser = useSelector(
