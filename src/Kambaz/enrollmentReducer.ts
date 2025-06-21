@@ -9,15 +9,15 @@ export interface Enrollment {
 
 const initialState: Enrollment[] = [...db.enrollments];
 
-const ENROLL_IN_COURSE   = "enrollment/ENROLL_IN_COURSE";
-const UNENROLL_FROM_COURSE = "enrollment/UNENROLL_FROM_COURSE";
+const ENROLL_COURSE = "enrollment/ENROLL_COURSE";
+const UNENROLL_COURSE = "enrollment/UNENROLL_COURSE";
 
 export const enrollCourse = (user: string, course: string) => ({
-  type: ENROLL_IN_COURSE,
+  type: ENROLL_COURSE,
   payload: { user, course },
 });
 export const unenrollCourse = (user: string, course: string) => ({
-  type: UNENROLL_FROM_COURSE,
+  type: UNENROLL_COURSE,
   payload: { user, course },
 });
 
@@ -26,7 +26,7 @@ export default function enrollmentReducer(
   action: AnyAction
 ): Enrollment[] {
   switch (action.type) {
-    case ENROLL_IN_COURSE: {
+    case ENROLL_COURSE: {
       const { user, course } = action.payload;
       const already = state.some(
         (en) => en.user === user && en.course === course
@@ -36,7 +36,7 @@ export default function enrollmentReducer(
       return [...state, { user, course }];
     }
 
-    case UNENROLL_FROM_COURSE: {
+    case UNENROLL_COURSE: {
       const { user, course } = action.payload;
       return state.filter(
         (en) => !(en.user === user && en.course === course)

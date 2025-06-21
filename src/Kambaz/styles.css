@@ -36,11 +36,9 @@ body * {
 
 .btn-secondary {
   --bs-btn-color: #000 !important;
-  --bs-btn-bg: #f2f4f4 !important;
-  --bs-btn-border-color: #e4e8e8 !important;
-  --bs-btn-hover-border-color: #e4e8e8 !important;
-  --bs-btn-hover-color: #000 !important;
-  --bs-btn-hover-bg: #e4e8e8 !important
+  --bs-btn-bg: #c7cdd1 !important;
+  --bs-btn-border-color: #c7cdd1 !important;
+  --bs-btn-hover-color: #fff !important;
 }
 
 .bg-secondary {
@@ -48,11 +46,11 @@ body * {
 }
 
 .list-group-item {
-  --bs-list-group-border-color: rgb(202, 202, 202);
+  --bs-list-group-border-color: gray;
 }
 
 .border-gray {
-  border: 1px solid rgb(202, 202, 202) !important;
+  border: 1px solid gray !important;
 }
 
 .wd-lesson {

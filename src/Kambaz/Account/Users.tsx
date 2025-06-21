@@ -5,10 +5,10 @@ import PeopleTable, { type User } from "../Courses/People/Table";
 import * as client from "./client";
 
 export default function Users() {
-  const [users, setUsers] = useState<User[]>([]);
+  const [users, setUsers]           = useState<User[]>([]);
   const [roleFilter, setRoleFilter] = useState("");
   const [nameFilter, setNameFilter] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading]       = useState(false);
 
   const loadUsers = async () => {
     setLoading(true);
@@ -39,12 +39,12 @@ export default function Users() {
     try {
       await client.createUser({
         firstName: "New",
-        lastName: `User${Date.now()}`,
-        username: `newuser${Date.now()}`,
-        password: "password123",
-        email: `email${Date.now()}@neu.edu`,
-        section: "S101",
-        role: "STUDENT",
+        lastName:  `User${Date.now()}`,
+        username:  `newuser${Date.now()}`,
+        password:  "password123",
+        email:     `email${Date.now()}@neu.edu`,
+        section:   "S101",
+        role:      "STUDENT",
       });
       await loadUsers();
       setNameFilter("");

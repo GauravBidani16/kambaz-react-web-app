@@ -5,7 +5,7 @@ import { setCurrentUser } from "./reducer";
 import type { RootState } from "../store";
 
 export default function Session({ children }: { children: React.ReactNode }) {
-  const dispatch = useDispatch();
+  const dispatch    = useDispatch();
   const currentUser = useSelector((s: RootState) => s.accountReducer.currentUser);
 
   useEffect(() => {

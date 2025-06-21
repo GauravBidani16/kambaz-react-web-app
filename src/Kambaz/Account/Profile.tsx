@@ -25,21 +25,21 @@ export default function Profile() {
     setProfile(currentUser);
   };
   const updateProfile = async () => {
-    if (!profile) return;
-    try {
-      const updated = await client.updateUser(profile);
-      dispatch(setCurrentUser(updated));
-      alert("Profile updated successfully");
-    } catch (e: any) {
-      console.error("Update failed", e);
-      alert(
-        e.response?.data?.message || "Failed to update profile—please try again"
-      );
-    }
-  };
+  if (!profile) return;
+  try {
+    const updated = await client.updateUser(profile);
+    dispatch(setCurrentUser(updated));
+    alert("Profile updated successfully");
+  } catch (e: any) {
+    console.error("Update failed", e);
+    alert(
+      e.response?.data?.message || "Failed to update profile—please try again"
+    );
+  }
+};
 
-  const signout = async () => {
-    await client.signout();
+  const signout = async() => {
+      await client.signout();
     dispatch(setCurrentUser(null));
     navigate("/Kambaz/Account/Signin", { replace: true });
   };
@@ -167,15 +167,15 @@ export default function Profile() {
 
         <Form.Group as={Row}>
           <Col sm={{ span: 10, offset: 2 }}>
-            <Button
-              variant="primary"
-              size="lg"
-              className="w-100 mb-2"
-              onClick={updateProfile}
-              id="wd-update-btn"
-            >
-              Update
-            </Button>
+          <Button
+  variant="primary"
+  size="lg"
+  className="w-100 mb-2"
+  onClick={updateProfile}
+  id="wd-update-btn"
+>
+  Update
+</Button>
             <Button
               variant="danger"
               size="lg"
