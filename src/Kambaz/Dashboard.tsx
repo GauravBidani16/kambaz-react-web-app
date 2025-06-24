@@ -1,6 +1,18 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import {
+  fetchAllCourses as fetchAllCoursesAPI,
+  createCourse as createCourseAPI,
+  updateCourse as updateCourseAPI,
+  deleteCourse as deleteCourseAPI,
+} from "./Courses/client";
+import {
+  findMyCourses as fetchMyCoursesAPI,
+  enrollInCourse as enrollAPI,
+  unenrollFromCourse as unenrollAPI,
+} from "./Account/client";
+import type { RootState } from "./store";
+import {
   Row,
   Col,
   Card,
@@ -9,20 +21,6 @@ import {
   FormControl,
 } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import type { RootState } from "./store";
-
-import {
-  fetchAllCourses as fetchAllCoursesAPI,
-  createCourse as createCourseAPI,
-  updateCourse as updateCourseAPI,
-  deleteCourse as deleteCourseAPI,
-} from "./Courses/client";
-
-import {
-  findMyCourses as fetchMyCoursesAPI,
-  enrollInCourse as enrollAPI,
-  unenrollFromCourse as unenrollAPI,
-} from "./Account/client";
 
 export interface Course {
   _id: string;
@@ -44,13 +42,13 @@ export default function Dashboard() {
 
   const [allCourses, setAllCourses] = useState<Course[]>([]);
   const [enrolledCourses, setEnrolledCourses] = useState<Course[]>([]);
-  const [showAll, setShowAll] = useState<boolean>(true);   // ← start with full list
+  const [showAll, setShowAll] = useState<boolean>(true);
 
   const [newCourse, setNewCourse] = useState<Omit<Course, "_id">>({
     name: "",
     number: "",
     description: "",
-    image: "/images/html.jpg",
+    image: "/images/react.jpg",
   });
   const [editingCourse, setEditingCourse] = useState<Course | null>(null);
 
@@ -79,10 +77,15 @@ export default function Dashboard() {
     if (!newCourse.name.trim()) return;
     try {
       await createCourseAPI(newCourse);
-      setNewCourse({ name: "", number: "", description: "", image: "/images/html.jpg" });
+      setNewCourse({
+        name: "",
+        number: "",
+        description: "",
+        image: "/images/react.jpg",
+      });
       await loadCourses();
     } catch (err) {
-      console.error("Add course failed.", err);
+      console.error("add failed", err);
     }
   };
 
@@ -98,7 +101,7 @@ export default function Dashboard() {
   };
 
   const handleDelete = async (id: string) => {
-    if (!window.confirm("Are you sure you want to delete this course?")) return;
+    if (!window.confirm("Delete this course?")) return;
     try {
       await deleteCourseAPI(id);
       await loadCourses();
@@ -131,12 +134,23 @@ export default function Dashboard() {
     }
   };
 
-  const displayed = showAll
-    ? allCourses.map((c) => ({
+  // remove any null/undefined entries
+  const safeAll = allCourses.filter(
+    (c): c is Course => c != null
+  );
+  const safeEnrolled = enrolledCourses.filter(
+    (c): c is Course => c != null
+  );
+
+  // build displayed list
+  const rawDisplayed = showAll
+    ? safeAll.map((c) => ({
       ...c,
-      enrolled: enrolledCourses.some((e) => e._id === c._id),
+      enrolled: safeEnrolled.some((e) => e._id === c._id),
     }))
-    : enrolledCourses;
+    : safeEnrolled;
+
+  const displayed = rawDisplayed; // already safe
 
   return (
     <div id="wd-dashboard" className="p-3">
@@ -158,13 +172,17 @@ export default function Dashboard() {
           <FormControl
             placeholder="Course Name"
             value={newCourse.name}
-            onChange={(e) => setNewCourse({ ...newCourse, name: e.target.value })}
+            onChange={(e) =>
+              setNewCourse({ ...newCourse, name: e.target.value })
+            }
             className="mb-2"
           />
           <FormControl
             placeholder="Course Number"
             value={newCourse.number}
-            onChange={(e) => setNewCourse({ ...newCourse, number: e.target.value })}
+            onChange={(e) =>
+              setNewCourse({ ...newCourse, number: e.target.value })
+            }
             className="mb-2"
           />
           <FormControl
@@ -173,7 +191,10 @@ export default function Dashboard() {
             placeholder="Description"
             value={newCourse.description}
             onChange={(e) =>
-              setNewCourse({ ...newCourse, description: e.target.value })
+              setNewCourse({
+                ...newCourse,
+                description: e.target.value,
+              })
             }
             className="mb-2"
           />
@@ -249,7 +270,10 @@ export default function Dashboard() {
       </h2>
       <Row xs={1} md={3} lg={5} className="g-4">
         {displayed.map((c) => (
-          <Col key={c._id} className="wd-dashboard-course d-flex justify-content-center">
+          <Col
+            key={c._id}
+            className="wd-dashboard-course d-flex justify-content-center"
+          >
             <Card style={{ width: 300 }}>
               <Card.Img src={c.image} variant="top" height={160} />
               <Card.Body className="d-flex flex-column">
@@ -263,7 +287,10 @@ export default function Dashboard() {
                   {c.description}
                 </Card.Text>
                 <ButtonGroup className="mt-auto w-100">
-                  <Link to={`/Kambaz/Courses/${c._id}/Home`} className="btn btn-primary flex-grow-1">
+                  <Link
+                    to={`/Kambaz/Courses/${c._id}/Home`}
+                    className="btn btn-primary flex-grow-1"
+                  >
                     Go
                   </Link>
                   {isFaculty ? (
